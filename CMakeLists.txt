@@ -5,4 +5,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(breakout)
 
-add_executable(breakout main.cpp)
+add_subdirectory(libs/glfw-3.4)
+include_directories(libs/glad/include)
+
+add_executable(breakout main.cpp libs/glad/src/glad.c)
+
+target_link_libraries(breakout glfw)
