@@ -1,13 +1,19 @@
-cmake_minimum_required(VERSION 3.10)
+# Set minium version of CMake Required (Modern CMake Perferable)
+cmake_minimum_required(VERSION 3.20)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Set project name
 project(breakout)
 
-add_subdirectory(libs/glfw-3.4)
-include_directories(libs/glad/include)
+# Add glfw source subdirectory
+add_subdirectory(${PROJECT_SOURCE_DIR}/libs/glfw-3.4)
 
-add_executable(breakout main.cpp libs/glad/src/glad.c)
+add_executable(${PROJECT_NAME} main.cpp src/Application.cpp libs/glad/src/glad.c)
 
-target_link_libraries(breakout glfw)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/libs/glad/include)
+
+target_link_libraries(${PROJECT_NAME} glfw)
+
+include_directories(${CMAKE_SOURCE_DIR}/libs/glfw-3.4 ${CMAKE_SOURCE_DIR}/libs/glad)
