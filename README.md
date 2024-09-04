@@ -10,3 +10,7 @@ This way I can improve my programming and development skills by what is going un
 - Improve Game Development and Project Skills such as Planning, Code Organization, Version Control, and CMake
 
 *To Be Updated*
+
+## References/Help
+This project uses LearnOpenGL as a basis to learn and apply Computer Graphics Knowledge
+Link: https://learnopengl.com/
