@@ -8,8 +8,8 @@
 int main()
 {
     std::string title = "BREAKOUT";
-    int width = 800;
-    int height = 600;
+    int width = 1280;
+    int height = 720;
     Application app(width, height, title.c_str());
     try
     {
