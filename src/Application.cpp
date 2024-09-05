@@ -2,11 +2,9 @@
 
 Application::Application(int width, int height, std::string title) : m_WIDTH(width), m_HEIGHT(height), m_TITLE(title)
 {
+    m_game = 0;
 }
 
-Application::Application(const Application& other) : m_WIDTH(other.m_WIDTH), m_HEIGHT(other.m_HEIGHT), m_TITLE(other.m_TITLE)
-{
-}
 
 Application::~Application()
 {
@@ -51,9 +49,8 @@ void Application::MainLoop()
     {
         glfwSwapBuffers(m_window);
         ProcessInput(m_window);
-
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        m_game->Render();
+        m_game->Update(0);
         glfwPollEvents();
     }
     return;
@@ -62,6 +59,13 @@ void Application::MainLoop()
 void Application::Shutdown()
 {
     glfwDestroyWindow(m_window);
+
+    if (m_game)
+    {
+        delete m_game;
+        m_game = 0;
+    }
+    
     glfwTerminate();
 }
 
@@ -71,7 +75,8 @@ void Application::ProcessInput(GLFWwindow* window)
     {
         glfwSetWindowShouldClose(window, true);
     }
-    
+    // Gameplay Keys
+    // TODO: Pass inputs to Game Class to effect Player object state
 }
 
 void FrameBufferSize_Callback(GLFWwindow* window, int width, int height)

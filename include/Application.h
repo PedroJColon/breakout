@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Game.h"
+
 #include <string>
 #include <iostream>
 
@@ -17,11 +19,10 @@ private:
 
     // MEMBER VARIABLES
     GLFWwindow* m_window;
-    // TODO: Create Game Class
-    // Game m_game;
+    Game* m_game;
+    
 public:
     Application(int, int, std::string);
-    Application(const Application&);
     ~Application();
     void Run();
 
