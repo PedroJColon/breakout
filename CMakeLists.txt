@@ -12,7 +12,8 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/libs/glfw-3.4)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/libs/glm)
 
-add_executable(${PROJECT_NAME} main.cpp ${PROJECT_SOURCE_DIR}/src/Application.cpp ${PROJECT_SOURCE_DIR}/src/Game.cpp ${PROJECT_SOURCE_DIR}/libs/glad/src/glad.c)
+add_executable(${PROJECT_NAME} main.cpp ${PROJECT_SOURCE_DIR}/src/Application.cpp ${PROJECT_SOURCE_DIR}/src/Game.cpp
+${PROJECT_SOURCE_DIR}/src/Shader.cpp ${PROJECT_SOURCE_DIR}/libs/glad/src/glad.c)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/libs/glad/include)
 
