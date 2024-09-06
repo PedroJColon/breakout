@@ -14,16 +14,20 @@
 class Shader
 {
 private:
-    // MEMBER VARIABLES
-    std::string m_fragmentCode;
-    std::string m_vertexCode;
-    unsigned int m_ID;
 public:
-    Shader(std::string&, std::string&);
+    // MEMBER VARIABLES
+    unsigned int m_ID; // Shader Program ID
+
+    // CONSTRUCTORS
+    Shader();
+    // DESTRUCTORS
     ~Shader();
 
     void ActivateShader();
     void DeactivateShader();
+    // Use this function in Resource Manager - Handles creation and compliation of Shader Program
+    void CompileShaders(std::string&, std::string&);
+    // unsigned int GetShaderID();
     // UTILITY FUNCTIONS (MATH-RELATED)
     // void SetInt(const std::string&, int value) const;
     // void SetFloat(const std::string&, float value) const;
@@ -36,8 +40,6 @@ private:
     // UTILITY FUNCTIONS
     void CheckCompileErrors(unsigned int, std::string);
     void CheckLinkingErrors();
-    // HANDLE SHADER CREATION AND COMPLIATION PROCESS
-    void CompileShaders();
 };
 
 #endif // SHADER_H
