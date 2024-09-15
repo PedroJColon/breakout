@@ -16,17 +16,16 @@ class Shader
 private:
 public:
     // MEMBER VARIABLES
-    unsigned int m_ID; // Shader Program ID
+    unsigned int m_ID; // Shader Program ID - Important for us to free shader resource when needed
 
     // CONSTRUCTORS
-    Shader();
+    Shader(); // Empty default constructor made to make linker happy - Will not be used often if at all
+    Shader(std::string&, std::string&); // This constructor will be used to create and compile shaders into a shader program
     // DESTRUCTORS
     ~Shader();
 
-    void ActivateShader();
-    void DeactivateShader();
-    // Use this function in Resource Manager - Handles creation and compliation of Shader Program
-    void CompileShaders(std::string&, std::string&);
+    void ActivateShader(); // Activates Shader with its ID value
+    void DeactivateShader(); // Deactivates Shader into a zero value
     // unsigned int GetShaderID();
     // UTILITY FUNCTIONS (MATH-RELATED)
     // void SetInt(const std::string&, int value) const;
@@ -38,8 +37,8 @@ public:
 
 private:
     // UTILITY FUNCTIONS
-    void CheckCompileErrors(unsigned int, std::string);
-    void CheckLinkingErrors();
+    void CheckCompileErrors(unsigned int, std::string); // Check for any compliation errors with shader code
+    void CheckLinkingErrors(); // Check for any linkage error with shader program
 };
 
 #endif // SHADER_H

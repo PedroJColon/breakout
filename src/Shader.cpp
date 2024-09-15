@@ -2,6 +2,39 @@
 
 Shader::Shader()
 {
+    m_ID = 0;
+}
+
+Shader::Shader(std::string& shaderVertexCode, std::string& shaderFragmentCode)
+{
+    unsigned int vertex, fragment;
+
+    // Has to be converted to const char due to how GLAD glShaderSource works (Gives errors if we use string)
+    const char* vertexCode = shaderVertexCode.c_str();
+    // Compile our Vertex shader now
+    vertex = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertex, 1, &vertexCode, NULL);
+    glCompileShader(vertex);
+    CheckCompileErrors(vertex, "VERTEX");
+
+    // Has to be converted to const char due to how GLAD glShaderSource works (Gives errors if we use string)
+    const char* fragmentCode = shaderFragmentCode.c_str();
+    // Compile our Fragment shader now
+    fragment = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragment, 1, &fragmentCode, NULL);
+    glCompileShader(fragment);
+    CheckCompileErrors(fragment, "FRAGMENT");
+
+    // Once we have complied our shaders, attach shaders to program and link them together
+    m_ID = glCreateProgram();
+    glAttachShader(m_ID, vertex);
+    glAttachShader(m_ID, fragment);
+    glLinkProgram(m_ID);
+    CheckLinkingErrors();
+
+    // With our program made, delete shaders to save on space
+    glDeleteShader(vertex);
+    glDeleteShader(fragment);
 }
 
 Shader::~Shader()
@@ -43,31 +76,4 @@ void Shader::CheckLinkingErrors()
         glGetProgramInfoLog(m_ID, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << std::endl;   
     }
-    
-}
-
-void Shader::CompileShaders(std::string& shaderVertexCode, std::string& shaderFragmentCode)
-{
-    unsigned int vertex, fragment;
-
-    const char* vertexCode = shaderVertexCode.c_str();
-    vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vertexCode, NULL);
-    glCompileShader(vertex);
-    CheckCompileErrors(vertex, "VERTEX");
-
-    const char* fragmentCode = shaderFragmentCode.c_str();
-    fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment, 1, &fragmentCode, NULL);
-    glCompileShader(fragment);
-    CheckCompileErrors(fragment, "FRAGMENT");
-
-    m_ID = glCreateProgram();
-    glAttachShader(m_ID, vertex);
-    glAttachShader(m_ID, fragment);
-    glLinkProgram(m_ID);
-    CheckLinkingErrors();
-
-    glDeleteShader(vertex);
-    glDeleteShader(fragment);
 }
