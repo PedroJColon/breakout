@@ -1,3 +1,12 @@
+# Folders for git to ignore
 .vscode/
 .vs/
 build/
+CMakeFiles/
+
+# Files for git to ignore
+*.vcxproj
+*.vcxproj.filters
+*.sln
+*.cmake
+*.pc
