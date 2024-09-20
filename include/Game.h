@@ -3,6 +3,8 @@
 
 #include <glad/glad.h>
 #include <../glfw-3.4/include/GLFW/glfw3.h>
+#include <../glm/glm.hpp>
+#include <../glm/gtc/matrix_transform.hpp>
 
 #include <string>
 #include <iostream>
@@ -24,7 +26,8 @@ public:
     ~Game();
     void Run(); // Runs Game - Calls Init, ProgramLoop, and Shutdown
 private:
-    void Init();
+    void InitWindow();
+    void InitGame();
     void ProgramLoop();
     void Render();
     void Update(float);
