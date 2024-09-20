@@ -3,21 +3,22 @@
 #include <string>
 
 // MY CLASS INCLUDES
-#include "Application.h"
+#include "Game.h"
 
 int main()
 {
     std::string title = "BREAKOUT";
-    int width = 1280;
-    int height = 720;
-    Application app(width, height, title.c_str());
+    int width = 1920;
+    int height = 1080;
+
+    Game game(width, height, title);
     try
     {
-        app.Run();
+        game.Run();
     }
-    catch(const std::exception& e)
+    catch (const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        std::cerr << "Error Reason: " << e.what() << '\n' << std::endl;
     }
     
     return 0;
