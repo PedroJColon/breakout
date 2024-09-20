@@ -24,16 +24,16 @@ public:
     // DESTRUCTORS
     ~Shader();
 
+    void CompileShaders(std::string&, std::string&, std::string&);
     void ActivateShader(); // Activates Shader with its ID value
     void DeactivateShader(); // Deactivates Shader into a zero value
-    // unsigned int GetShaderID();
     // UTILITY FUNCTIONS (MATH-RELATED)
-    // void SetInt(const std::string&, int value) const;
-    // void SetFloat(const std::string&, float value) const;
+    void SetInt(const std::string&, int) const;
+    // void SetFloat(const std::string&, float) const;
     // void SetVector2f(const std::string&, glm::vec2) const;
     // void SetVector3f(const std::string&, glm::vec3) const;
     // void SetVector4f(const std::string&, glm::vec4) const;
-    // void SetMatrix4f(const std::string&, glm::mat4) const;
+    void SetMatrix4f(const std::string&, glm::mat4) const;
 
 private:
     // UTILITY FUNCTIONS

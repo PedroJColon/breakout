@@ -17,9 +17,10 @@ public:
     unsigned int m_filterMax;
 
     unsigned int m_ID; // Texture's ID to be used
-    Texture2D(); // Empty default constructor made to make linker happy - DO NOT USE!
-    Texture2D(int, int, unsigned char*, bool);
+    Texture2D();
     ~Texture2D();
+
+    void GenerateTexture(unsigned int, unsigned int, unsigned char*);
     void Bind() const;
 };
 

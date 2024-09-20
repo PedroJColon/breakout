@@ -1,30 +1,22 @@
 #include "Texture2D.h"
 
-Texture2D::Texture2D()
-{
-    // Set inital variables (to have warnings go away)
-    m_ID = 0;
-    m_width = 0;
-    m_height = 0;
-    m_internalFormat = GL_RGB;
-    m_imageFormat = GL_RGB;
-    m_warpS = GL_REPEAT;
-    m_warpT = GL_REPEAT;
-    m_filterMin = GL_LINEAR;
-    m_filterMax = GL_LINEAR;
-}
-
-Texture2D::Texture2D(int width, int height, unsigned char* data, bool alpha) : m_width(width), m_height(height), m_internalFormat(GL_RGB), 
-m_imageFormat(GL_RGB), m_warpS(GL_REPEAT), m_warpT(GL_REPEAT), m_filterMin(GL_LINEAR), m_filterMax(GL_LINEAR)
+Texture2D::Texture2D() : m_width(0), m_height(0), m_internalFormat(GL_RGB), m_imageFormat(GL_RGB), m_warpS(GL_REPEAT), m_warpT(GL_REPEAT),
+m_filterMin(GL_LINEAR), m_filterMax(GL_LINEAR)
 {
     // Generate the texture with its own ID
     glGenTextures(1, &m_ID);
-    // If we have alpha value, override the current initalize values to use RGBA values
-    if (alpha)
-    {
-        m_internalFormat = GL_RGBA;
-        m_imageFormat = GL_RGBA;
-    }
+}
+
+Texture2D::~Texture2D()
+{
+}
+
+void Texture2D::GenerateTexture(unsigned int width, unsigned int height, unsigned char* data)
+{
+    // Set member width and height variables to width and height
+    m_width = width;
+    m_height = height;
+
     // Ensure the texture is bind to set parameters
     glBindTexture(GL_TEXTURE_2D, m_ID);
     // Create texture using image data made with STBI
@@ -36,10 +28,6 @@ m_imageFormat(GL_RGB), m_warpS(GL_REPEAT), m_warpT(GL_REPEAT), m_filterMin(GL_LI
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_filterMax);
     // Unbind texture once we set parameters
     glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-Texture2D::~Texture2D()
-{
 }
 
 void Texture2D::Bind() const
