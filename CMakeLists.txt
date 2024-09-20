@@ -9,8 +9,8 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/libs/glfw-3.4)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/libs/glm)
 
-add_executable(${PROJECT_NAME} main.cpp ${PROJECT_SOURCE_DIR}/src/Application.cpp ${PROJECT_SOURCE_DIR}/src/Game.cpp
-${PROJECT_SOURCE_DIR}/src/Shader.cpp  ${PROJECT_SOURCE_DIR}/src/Texture2D.cpp ${PROJECT_SOURCE_DIR}/src/ResourceManager.cpp
+add_executable(${PROJECT_NAME} main.cpp  ${PROJECT_SOURCE_DIR}/src/Game.cpp ${PROJECT_SOURCE_DIR}/src/Shader.cpp  
+${PROJECT_SOURCE_DIR}/src/Texture2D.cpp ${PROJECT_SOURCE_DIR}/src/ResourceManager.cpp 
 ${PROJECT_SOURCE_DIR}/libs/glad/src/glad.c)
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_14)
