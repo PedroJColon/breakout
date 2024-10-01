@@ -28,11 +28,11 @@ public:
 	// Get specified Texture from name given
 	static Texture2D GetTexture(std::string);
 	// Load and Create Texture
-	static Texture2D LoadTexture(std::string, std::string, bool);
+	static Texture2D LoadTexture(const std::string&, std::string, bool);
 	// Get specific shader name within hash map
 	static Shader GetShader(std::string);
 	// Public Function to Load Shaders into shadersResource
-	static Shader LoadShaders(std::string, std::string, std::string, std::string);
+	static Shader LoadShaders(const std::string&, const std::string&, const std::string&, std::string);
 	// Once program is done, free all resources
 	static void FreeResources();
 
@@ -41,7 +41,7 @@ private:
 	~ResourceManager() {};
 
 	// Loads vertex and fragment shaders from the file given. Geometry shader support down the line?
-	static Shader LoadShaderFromFile(std::string, std::string, std::string);
+	static Shader LoadShaderFromFile(const std::string&, const std::string&, const std::string&);
 	// Loads Image from file given
 	static Texture2D LoadTextureFromFile(std::string, bool);
 };

@@ -11,7 +11,7 @@ Texture2D ResourceManager::GetTexture(std::string name)
 	return textureResource[name];
 }
 
-Texture2D ResourceManager::LoadTexture(std::string filePath, std::string name, bool alpha)
+Texture2D ResourceManager::LoadTexture(const std::string& filePath, std::string name, bool alpha)
 {
 	return textureResource[name] = LoadTextureFromFile(filePath, alpha);
 }
@@ -21,7 +21,7 @@ Shader ResourceManager::GetShader(std::string name)
 	return shaderResource[name];
 }
 
-Shader ResourceManager::LoadShaders(std::string vertexPath, std::string fragmentPath, std::string geometryPath, std::string name)
+Shader ResourceManager::LoadShaders(const std::string& vertexPath, const std::string& fragmentPath, const std::string& geometryPath, std::string name)
 {
 	return shaderResource[name] = LoadShaderFromFile(vertexPath, fragmentPath, geometryPath);
 }
@@ -38,7 +38,7 @@ void ResourceManager::FreeResources()
 	}
 }
 
-Shader ResourceManager::LoadShaderFromFile(std::string vertexFile, std::string fragmentFile, std::string geometryFile)
+Shader ResourceManager::LoadShaderFromFile(const std::string& vertexFile, const std::string& fragmentFile, const std::string& geometryFile)
 {
     std::ifstream vertexFileStream;
     std::ifstream fragmentFileStream;
