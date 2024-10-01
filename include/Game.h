@@ -6,6 +6,8 @@
 #include <../glm/glm.hpp>
 #include <../glm/gtc/matrix_transform.hpp>
 
+#include "Level.h"
+
 #include <string>
 #include <iostream>
 
@@ -19,6 +21,10 @@ private:
 
     // Member Variables
     GLFWwindow* m_window;
+    GameObject m_player;
+
+    std::vector<Level> m_levels;
+    unsigned int m_level;
 
 public:
     Game(); // Default Constructor - Here to test if GLFW windowing works
@@ -32,7 +38,7 @@ private:
     void Render();
     void Update(float);
     void Shutdown();
-    void ProcessInput();
+    void ProcessInput(float);
 };
 
 
