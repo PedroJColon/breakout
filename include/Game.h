@@ -7,9 +7,21 @@
 #include <../glm/gtc/matrix_transform.hpp>
 
 #include "Level.h"
+#include "Renderer.h"
 
 #include <string>
 #include <iostream>
+
+enum Direction
+{
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT
+};
+
+typedef std::tuple<bool, Direction, glm::vec2> Collision;
+
 
 class Game
 {
@@ -21,7 +33,14 @@ private:
 
     // Member Variables
     GLFWwindow* m_window;
-    GameObject m_player;
+    std::shared_ptr<Renderer> m_renderer;
+    std::vector<GameObject> m_gameObjects;
+
+    const float m_PLAYERVELOCITY = 500.0f;
+    const float m_BALLRADIUS = 12.5f;
+    const glm::vec2 m_PLAYERSIZE = { 100.0f, 20.0f };
+    const glm::vec2 m_BALLVELOCITY = { 100.0f, -350.0f };
+
 
     std::vector<Level> m_levels;
     unsigned int m_level;
@@ -39,6 +58,12 @@ private:
     void Update(float);
     void Shutdown();
     void ProcessInput(float);
+    void ResetLevel();
+    void ResetPlayer();
+
+    Collision CheckCollision(GameObject&, GameObject&);
+    void DoCollisions();
+    Direction VectorDirection(glm::vec2);
 };
 
 
