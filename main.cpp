@@ -8,8 +8,8 @@
 int main()
 {
     std::string title = "BREAKOUT";
-    int width = 1920;
-    int height = 1080;
+    int width = 1280;
+    int height = 720;
 
     Game game(width, height, title);
     try
@@ -20,6 +20,6 @@ int main()
     {
         std::cerr << "Error Reason: " << e.what() << '\n' << std::endl;
     }
-    
+
     return 0;
 }
