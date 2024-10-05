@@ -70,37 +70,12 @@ void Game::InitGame()
     ResourceManager::LoadTexture(RESOURCES_PATH "sprites/background.jpg", "background", false);
     ResourceManager::LoadTexture(RESOURCES_PATH "sprites/paddle.png", "paddle", true);
     ResourceManager::LoadTexture(RESOURCES_PATH "sprites/awesomeface.png", "ball", true);
-    
-    
-    glm::vec2 playerPos = glm::vec2(
-    m_WIDTH / 2.0f - m_PLAYERSIZE.x / 2.0f, m_HEIGHT - m_PLAYERSIZE.y);
 
-    // Crreat Game Objects
-    std::shared_ptr<SpriteComponent> playerSprite(new SpriteComponent(ResourceManager::GetTexture("paddle")));
-    GameObject playerObject = GameObject(playerPos, m_PLAYERSIZE, ID::PLAYER);
-    playerObject.AddComponent(playerSprite);
-    m_gameObjects.push_back(playerObject);
+    m_gameObjects = CreateGameObjects(); 
+    m_levels = LoadLevels();
 
-    std::shared_ptr<SpriteComponent> ballSprite(new SpriteComponent(ResourceManager::GetTexture("ball")));
-    glm::vec2 ballPos = playerPos + glm::vec2(m_PLAYERSIZE.x / 2.0f - m_BALLRADIUS, -m_BALLRADIUS * 2.0f);
-    GameObject ballObject = GameObject(ballPos, glm::vec2(m_BALLRADIUS * 2.0f, m_BALLRADIUS * 2.0f), ID::BALL);
-    ballObject.m_radius = m_BALLRADIUS;
-    ballObject.m_velocity = m_BALLVELOCITY;
-    ballObject.m_stuck = true;
-    ballObject.AddComponent(ballSprite);
-    m_gameObjects.push_back(ballObject);
-
-    Level levelOne, levelTwo, levelThree, levelFour;
-    levelOne.Load(RESOURCES_PATH "levels/level1.txt", m_WIDTH, m_HEIGHT / 2);
-    levelTwo.Load(RESOURCES_PATH "levels/level2.txt", m_WIDTH, m_HEIGHT / 2);
-    levelThree.Load(RESOURCES_PATH "levels/level3.txt", m_WIDTH, m_HEIGHT / 2);
-    levelFour.Load(RESOURCES_PATH "levels/level4.txt", m_WIDTH, m_HEIGHT / 2);
-
-    m_levels.push_back(levelOne);
-    m_levels.push_back(levelTwo);
-    m_levels.push_back(levelThree);
-    m_levels.push_back(levelFour);
-    m_level = 0;
+    // Current Level
+    m_level = 0; 
 
 
 }
@@ -153,7 +128,7 @@ void Game::ProcessInput(float deltaTime)
 
     if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
     {
-        if (m_gameObjects[ID::PLAYER].m_pos.x <= m_WIDTH - m_gameObjects[0].m_size.x)
+        if (m_gameObjects[ID::PLAYER].m_pos.x <= m_WIDTH - m_gameObjects[ID::PLAYER].m_size.x)
         {
             m_gameObjects[ID::PLAYER].m_pos.x += playerVelo;
             if (m_gameObjects[ID::BALL].m_stuck)
@@ -182,6 +157,37 @@ void Game::ResetPlayer()
     m_gameObjects[0].m_size = m_PLAYERSIZE;
     m_gameObjects[0].m_pos = glm::vec2(m_WIDTH / 2.0f - m_PLAYERSIZE.x / 2.0f, m_HEIGHT - m_PLAYERSIZE.y);
     m_gameObjects[1].Reset(m_gameObjects[0].m_pos + glm::vec2(m_PLAYERSIZE.x / 2.0f - m_BALLRADIUS, -m_BALLRADIUS * 2.0f), m_BALLVELOCITY);
+}
+
+std::vector<GameObject> Game::CreateGameObjects()
+{
+    std::shared_ptr<SpriteComponent> playerSprite(new SpriteComponent(ResourceManager::GetTexture("paddle")));
+    GameObject playerObject = GameObject(m_PLAYERPOS, m_PLAYERSIZE, ID::PLAYER);
+    playerObject.AddComponent(playerSprite);
+
+    std::shared_ptr<SpriteComponent> ballSprite(new SpriteComponent(ResourceManager::GetTexture("ball")));
+    glm::vec2 ballPos = m_PLAYERPOS + glm::vec2(m_PLAYERSIZE.x / 2.0f - m_BALLRADIUS, -m_BALLRADIUS * 2.0f);
+    GameObject ballObject = GameObject(ballPos, glm::vec2(m_BALLRADIUS * 2.0f, m_BALLRADIUS * 2.0f), ID::BALL);
+    ballObject.m_radius = m_BALLRADIUS;
+    ballObject.m_velocity = m_BALLVELOCITY;
+    ballObject.m_stuck = true;
+    ballObject.AddComponent(ballSprite);
+
+    std::vector<GameObject> returnGameObjects{ playerObject, ballObject };
+    
+    return returnGameObjects;
+}
+
+std::vector<Level> Game::LoadLevels()
+{
+    Level levelOne, levelTwo, levelThree, levelFour;
+    levelOne.Load(RESOURCES_PATH "levels/level1.txt", m_WIDTH, m_HEIGHT / 2);
+    levelTwo.Load(RESOURCES_PATH "levels/level2.txt", m_WIDTH, m_HEIGHT / 2);
+    levelThree.Load(RESOURCES_PATH "levels/level3.txt", m_WIDTH, m_HEIGHT / 2);
+    levelFour.Load(RESOURCES_PATH "levels/level4.txt", m_WIDTH, m_HEIGHT / 2);
+
+    std::vector<Level> returnLoadedLevels{levelOne, levelTwo, levelThree, levelFour};
+    return returnLoadedLevels;
 }
 
 Collision Game::CheckCollision(GameObject& one, GameObject& two)
@@ -299,7 +305,7 @@ void Game::Update(float deltaTime)
     m_gameObjects[ID::BALL].Move(deltaTime, m_WIDTH);
     DoCollisions();
     Render();
-    if (m_gameObjects[1].m_pos.y >= m_HEIGHT)
+    if (m_gameObjects[ID::BALL].m_pos.y >= m_HEIGHT)
     {
         ResetLevel();
         ResetPlayer();

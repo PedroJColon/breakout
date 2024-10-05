@@ -39,6 +39,8 @@ private:
     const float m_PLAYERVELOCITY = 500.0f;
     const float m_BALLRADIUS = 12.5f;
     const glm::vec2 m_PLAYERSIZE = { 100.0f, 20.0f };
+    const glm::vec2 m_PLAYERPOS = glm::vec2(
+        m_WIDTH / 2.0f - m_PLAYERSIZE.x / 2.0f, m_HEIGHT - m_PLAYERSIZE.y);
     const glm::vec2 m_BALLVELOCITY = { 100.0f, -350.0f };
 
 
@@ -61,6 +63,9 @@ private:
     void ResetLevel();
     void ResetPlayer();
 
+
+    std::vector<GameObject> CreateGameObjects();
+    std::vector<Level> LoadLevels();
     Collision CheckCollision(GameObject&, GameObject&);
     void DoCollisions();
     Direction VectorDirection(glm::vec2);
