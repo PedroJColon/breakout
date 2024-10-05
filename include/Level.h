@@ -7,7 +7,7 @@
 // find out file i/o stuff
 
 #include "GameObject.h"
-#include <Sprite.h>
+#include "SpriteComponent.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
 
@@ -15,7 +15,7 @@ class Level
 {
 public:
 	// Hold Brich Object and Sprites
-	std::vector<std::pair<GameObject, Sprite>> bricks;
+	std::vector<GameObject> bricks;
 
 	Level();
 	~Level();

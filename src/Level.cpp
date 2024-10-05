@@ -39,11 +39,11 @@ void Level::Load(std::string file, unsigned int levelWidth, unsigned int levelHe
 
 void Level::Draw(Renderer& renderer)
 {
-	for (auto &iter : bricks)
+	for (auto &brick : bricks)
 	{
-		if (!iter.first.m_destroyed)
+		if (!brick.m_destroyed)
 		{
-			iter.second.Draw(renderer, iter.first.m_pos, iter.first.m_size, iter.first.m_rotation, iter.first.m_color);
+			brick.m_component[ComponentType::Sprite].get()->Draw(renderer, brick.m_pos, brick.m_size, brick.m_rotation, brick.m_color);
 		}
 	}
 }
@@ -52,7 +52,7 @@ bool Level::LevelCompleted()
 {
 	for (auto &tile : bricks)
 	{
-		if (!tile.first.m_isSolid && !tile.first.m_destroyed)
+		if (!tile.m_isSolid && !tile.m_destroyed)
 		{
 			return false;
 		}
@@ -65,7 +65,7 @@ void Level::InitLevel(std::vector<std::vector<unsigned int>> tileData, unsigned 
 
 	unsigned int height = tileData.size();
 	unsigned int width = tileData[0].size();
-	float unitWidth = levelWidth / width;
+	float unitWidth = levelWidth / static_cast<float>(width);
 	float unitHeight = levelHeight / height;
 
 	for (unsigned int y = 0; y < height; y++)
@@ -77,10 +77,11 @@ void Level::InitLevel(std::vector<std::vector<unsigned int>> tileData, unsigned 
 				glm::vec2 pos(unitWidth * x, unitHeight * y);
 				glm::vec2 size(unitWidth, unitHeight);
 
-				GameObject solidBrick(pos, size, glm::vec3(0.8f, 0.8f, 0.7f));
-				Sprite solidBrickSprite(ResourceManager::GetTexture("solid_brick"));
+				GameObject solidBrick(pos, size, ID::SOLIDBRICK, glm::vec3(0.8f, 0.8f, 0.7f));
+				std::shared_ptr<SpriteComponent> solidBrickSprite(new SpriteComponent(ResourceManager::GetTexture("solid_brick")));
+				solidBrick.AddComponent(solidBrickSprite);
 				solidBrick.m_isSolid = true;
-				bricks.push_back(std::make_pair(solidBrick, solidBrickSprite));
+				bricks.push_back(solidBrick);
 			}
 			else if (tileData[y][x] > 1)
 			{
@@ -105,9 +106,10 @@ void Level::InitLevel(std::vector<std::vector<unsigned int>> tileData, unsigned 
 
 				glm::vec2 pos(unitWidth * x, unitHeight * y);
 				glm::vec2 size(unitWidth, unitHeight);
-				GameObject brick(pos, size, color);
-				Sprite brickSprite(ResourceManager::GetTexture("brick"));
-				bricks.push_back(std::make_pair(brick, brickSprite));
+				GameObject brick(pos, size, ID::BRICK, color);
+				std::shared_ptr<SpriteComponent> brickSprite(new SpriteComponent(ResourceManager::GetTexture("brick")));
+				brick.AddComponent(brickSprite);
+				bricks.push_back(brick);
 			}
 		}
 	}
