@@ -34,7 +34,7 @@ void ResourceManager::FreeResources()
 	}
 	for (auto const& iter : textureResource)
 	{
-		glDeleteProgram(iter.second.m_ID);
+		glDeleteTextures(1, &iter.second.m_ID);
 	}
 }
 
@@ -103,5 +103,6 @@ Texture2D ResourceManager::LoadTextureFromFile(std::string filePath, bool alpha)
     newTexture.GenerateTexture(width, height, data);
     // Free data after we have used it - Goodbye Data!
     stbi_image_free(data);
+    data = nullptr;
     return newTexture; // Return our newly generated texture
 }
